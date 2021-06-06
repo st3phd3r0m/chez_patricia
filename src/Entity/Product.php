@@ -7,9 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * 
+ * @ExclusionPolicy("all")
  */
 class Product
 {
@@ -32,6 +37,7 @@ class Product
      *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $name;
 
@@ -47,6 +53,7 @@ class Product
      *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $description;
 
@@ -57,6 +64,7 @@ class Product
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Expose
      */
     private $mark; 
 
@@ -69,6 +77,7 @@ class Product
      *     type="numeric",
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
+     * @Expose
      */
     private $price_duty_free;
 
@@ -77,11 +86,13 @@ class Product
      * @Assert\NotBlank(
      *      message = "Champ requis",
      * )
+     * @Expose
      */
     private $brand;
 
     /**
      * @ORM\OneToMany(targetEntity=Size::class, mappedBy="product", cascade={"persist"})
+     * @Expose
      */
     private $sizes;
 
@@ -104,6 +115,12 @@ class Product
      * @ORM\Column(type="datetime")
      */
     private $updated_at;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     * @Expose
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -322,5 +339,17 @@ class Product
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

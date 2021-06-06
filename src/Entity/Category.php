@@ -7,9 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ExclusionPolicy("all")
  */
 class Category
 {
@@ -32,6 +36,7 @@ class Category
      *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $name;
 
@@ -43,13 +48,22 @@ class Category
      * @Assert\PositiveOrZero(
      *      message = "Le nombre saisi doit être nul ou positif",
      * )
+     * @Expose
      */
     private $hierarchy_order;
 
     /**
      * @ORM\ManyToMany(targetEntity=Product::class, mappedBy="category")
+     * 
+     * @Expose
      */
     private $products;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     * @Expose
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -115,5 +129,17 @@ class Category
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

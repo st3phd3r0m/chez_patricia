@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ExclusionPolicy("all")
  */
 class Comment
 {
@@ -14,6 +18,7 @@ class Comment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Expose
      */
     private $id;
 
@@ -29,16 +34,19 @@ class Comment
      *      maxMessage = "Votre commentaire doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Expose
      */
     private $created_at;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="comments")
+     * @Expose
      */
     private $product;
 
@@ -49,11 +57,13 @@ class Comment
      *      max = 5,
      *      notInRangeMessage = "La note saisie doit être comprise entre {{ min }} et {{ max }}",
      * )
+     * @Expose
      */
     private $mark;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="comments")
+     * @Expose
      */
     private $customer;
 

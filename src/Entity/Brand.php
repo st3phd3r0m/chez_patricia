@@ -7,12 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
- * @Vich\Uploadable
+ * @ExclusionPolicy("all")
  */
 class Brand
 {
@@ -35,29 +37,31 @@ class Brand
      *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Expose
      */
     private $logo;
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="brand")
+     * @Expose
      */
     private $products;
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @var \DateTimeInterface
      */
     private $updated_at;
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="brand_logos", fileNameProperty="logo")
      * @Assert\File(
      *      maxSize = 2000000,
      *      maxSizeMessage = "Le fichier est trop volumineux (> 2Mo)"
@@ -68,6 +72,12 @@ class Brand
      * )
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     * @Expose
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -165,5 +175,17 @@ class Brand
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

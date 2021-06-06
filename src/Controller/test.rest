@@ -1,0 +1,4 @@
+GET  http://localhost:5000/brands/7 HTTP/1.1
+# Authorization: _AiIUpcZ38hTyXUk9Qdop3fdQxb9k27w0Smd-nO2Euo
+# Content-type: application/json
+# X-Requested-With: XMLHttpRequest

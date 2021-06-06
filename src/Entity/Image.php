@@ -5,12 +5,13 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
- * @Vich\Uploadable
+ * @ExclusionPolicy("all")
  */
 class Image
 {
@@ -18,11 +19,13 @@ class Image
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Expose
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Expose
      */
     private $name;
 
@@ -33,12 +36,12 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
+     * @Expose
      */
     private $product;
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="products", fileNameProperty="name")
      * @Assert\File(
      *      maxSize = 2000000,
      *      maxSizeMessage = "Le fichier est trop volumineux (> 2Mo)"

@@ -8,9 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @ExclusionPolicy("all")
  */
 class Customer implements UserInterface
 {
@@ -18,6 +22,7 @@ class Customer implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Expose
      */
     private $id;
 
@@ -55,6 +60,7 @@ class Customer implements UserInterface
      *      maxMessage = "Votre prénom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $firstname;
 
@@ -70,6 +76,7 @@ class Customer implements UserInterface
      *      maxMessage = "Votre nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $lastname;
 
@@ -125,8 +132,14 @@ class Customer implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="customer")
+     * @Expose
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $pseudo;
 
 
     public function __construct()
@@ -320,5 +333,17 @@ class Customer implements UserInterface
     public function __toString()
     {
         return $this->firstname .' '.$this->lastname;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
 }

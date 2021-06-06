@@ -5,9 +5,13 @@ namespace App\Entity;
 use App\Repository\SizeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Since;
 
 /**
  * @ORM\Entity(repositoryClass=SizeRepository::class)
+ * @ExclusionPolicy("all")
  */
 class Size
 {
@@ -30,6 +34,7 @@ class Size
      *      maxMessage = "Le nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
+     * @Expose
      */
     private $name;
 
@@ -38,6 +43,7 @@ class Size
      * @Assert\NotBlank(
      *      message = "Champ requis",
      * )
+     * @Expose
      */
     private $product;
 
@@ -50,8 +56,15 @@ class Size
      *     type="integer",
      *     message="The value {{ value }} is not a valid {{ type }}."
      * )
+     * @Expose
      */
     private $stock;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     * @Expose
+     */
+    private $slug;
 
     public function getId(): ?int
     {
@@ -90,6 +103,18 @@ class Size
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
