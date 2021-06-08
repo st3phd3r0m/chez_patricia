@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,31 @@ class CommentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
+    }
+
+    /**
+     * @return Comment[] Returns an array of Brand objects
+     */
+    public function getPage(int $limit, int $offset, int $product_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.product = :val')
+            ->setParameter('val', $product_id)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getNumberOfPages(int $limit, int $product_id): int
+    {
+        $dql = 'SELECT COUNT(c.id), c.product_id  FROM comment as c WHERE c.product_id = ?';
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->executeQuery($dql, [$product_id], [ParameterType::INTEGER]);
+        $result = $stmt->fetchOne();
+        $conn->close();
+
+        return (int) ceil($result / $limit);
     }
 
     // /**

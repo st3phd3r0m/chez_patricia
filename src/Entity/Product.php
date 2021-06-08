@@ -31,10 +31,6 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "images",
  *     embedded = @Hateoas\Embedded("expr(object.getImages())")
  * )
- * @Hateoas\Relation(
- *     "comments",
- *     embedded = @Hateoas\Embedded("expr(object.getComments())")
- * )
  */
 class Product
 {
@@ -136,6 +132,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Expose
      */
     private $slug;
 

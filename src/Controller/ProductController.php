@@ -56,7 +56,7 @@ class ProductController extends AbstractFOSRestController
      * @Get(
      *      path = "/products/{slug}",
      *      name = "app_products_show",
-     *      requirements = {"slug"="\w+"}
+     *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
      */

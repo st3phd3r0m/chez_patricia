@@ -55,7 +55,7 @@ class BrandController extends AbstractFOSRestController
      * @Get(
      *      path = "/brands/{slug}",
      *      name = "app_brands_show",
-     *      requirements = {"slug"="\w+"}
+     *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
      */

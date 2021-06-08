@@ -83,6 +83,7 @@ class Brand
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Expose
      */
     private $slug;
 

@@ -13,6 +13,14 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
+ *      "self",
+ *      href = "expr('/comments/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "product",
+ *     embedded = @Hateoas\Embedded("expr(object.getProduct())")
+ * )
+ * @Hateoas\Relation(
  *     "customer",
  *     embedded = @Hateoas\Embedded("expr(object.getCustomer())")
  * )

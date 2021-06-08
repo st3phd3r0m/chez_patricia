@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,6 +41,16 @@ class ProductRepository extends ServiceEntityRepository
         $conn->close();
 
         return (int) ceil($result / $limit);
+    }
+
+    public function getProductId(string $product_slug): int
+    {
+        $dql = 'SELECT p.id, p.slug FROM product as p WHERE p.slug = ?';
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->executeQuery($dql, [$product_slug], [ParameterType::STRING]);
+        $result = $stmt->fetchOne();
+        $conn->close();
+        return (int) $result;
     }
 
     // /**
