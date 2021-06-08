@@ -13,14 +13,6 @@ use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @ExclusionPolicy("all")
- * @Hateoas\Relation(
- *      "self",
- *      href = @Hateoas\Route(
- *          "app_images_show",
- *          parameters = { "id" = "expr(object.getId())" },
- *          absolute = true
- *      )
- * )
  */
 class Image
 {
@@ -28,7 +20,6 @@ class Image
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Expose
      */
     private $id;
 

@@ -22,7 +22,6 @@ class Customer implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Expose
      */
     private $id;
 
@@ -60,7 +59,6 @@ class Customer implements UserInterface
      *      maxMessage = "Votre prénom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
-     * @Expose
      */
     private $firstname;
 
@@ -76,7 +74,6 @@ class Customer implements UserInterface
      *      maxMessage = "Votre nom doit comporter au maximum {{ limit }} caractères",
      *      allowEmptyString = false
      * )
-     * @Expose
      */
     private $lastname;
 
@@ -132,12 +129,12 @@ class Customer implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="customer")
-     * @Expose
      */
     private $comments;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Expose
      */
     private $pseudo;
 

@@ -61,9 +61,9 @@ class CategoryController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/categories/{id}",
+     *      path = "/categories/{slug}",
      *      name = "app_categories_show",
-     *      requirements = {"id"="\d+"}
+     *      requirements = {"slug"="\w+"}
      * )
      * @View
      */

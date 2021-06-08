@@ -17,11 +17,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
  *      "self",
- *      href = @Hateoas\Route(
- *          "app_products_show",
- *          parameters = { "id" = "expr(object.getId())" },
- *          absolute = true
- *      )
+ *      href = "expr('/products/' ~ object.getSlug())"
  * )
  * @Hateoas\Relation(
  *     "sizes",
@@ -34,6 +30,10 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *     "images",
  *     embedded = @Hateoas\Embedded("expr(object.getImages())")
+ * )
+ * @Hateoas\Relation(
+ *     "comments",
+ *     embedded = @Hateoas\Embedded("expr(object.getComments())")
  * )
  */
 class Product
@@ -135,8 +135,7 @@ class Product
     private $updated_at;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
-     * @Expose
+     * @ORM\Column(type="string", length=30)
      */
     private $slug;
 

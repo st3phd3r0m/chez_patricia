@@ -17,11 +17,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
  *      "self",
- *      href = @Hateoas\Route(
- *          "app_categories_show",
- *          parameters = { "id" = "expr(object.getId())" },
- *          absolute = true
- *      )
+ *      href = "expr('/categories/' ~ object.getSlug())"
  * )
  * @Hateoas\Relation(
  *     "products",
@@ -72,7 +68,6 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
-     * @Expose
      */
     private $slug;
 

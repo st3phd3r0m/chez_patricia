@@ -8,9 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
+use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *     "customer",
+ *     embedded = @Hateoas\Embedded("expr(object.getCustomer())")
+ * )
  */
 class Comment
 {
@@ -18,7 +23,6 @@ class Comment
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Expose
      */
     private $id;
 
@@ -46,7 +50,6 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="comments")
-     * @Expose
      */
     private $product;
 
@@ -63,7 +66,6 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="comments")
-     * @Expose
      */
     private $customer;
 

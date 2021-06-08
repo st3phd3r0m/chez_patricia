@@ -25,7 +25,6 @@ class ProductController extends AbstractFOSRestController
         $this->productRepository = $productRepository;
     }
 
-
     /**
      * @Get(
      *      path = "/products",
@@ -55,9 +54,9 @@ class ProductController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/products/{id}",
+     *      path = "/products/{slug}",
      *      name = "app_products_show",
-     *      requirements = {"id"="\d+"}
+     *      requirements = {"slug"="\w+"}
      * )
      * @View
      */
