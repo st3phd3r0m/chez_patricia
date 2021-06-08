@@ -19,6 +19,29 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    /**
+     * @return Product[] Returns an array of Brand objects
+     */
+    public function getPage(int $limit, int $offset)
+    {
+        return $this->createQueryBuilder('c')
+            ->setFirstResult( $offset )
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getNumberOfPages(int $limit): int
+    {
+        $dql = 'SELECT COUNT(*) FROM product as p';
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->executeQuery($dql, [], []);
+        $result = $stmt->fetchOne();
+        $conn->close();
+
+        return (int) ceil($result / $limit);
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

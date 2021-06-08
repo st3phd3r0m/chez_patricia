@@ -27,6 +27,10 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "sizes",
  *     embedded = @Hateoas\Embedded("expr(object.getSizes())")
  * )
+ * @Hateoas\Relation(
+ *     "brand",
+ *     embedded = @Hateoas\Embedded("expr(object.getBrand())")
+ * )
  */
 class Product
 {
@@ -98,7 +102,6 @@ class Product
      * @Assert\NotBlank(
      *      message = "Champ requis",
      * )
-     * @Expose
      */
     private $brand;
 
