@@ -9,9 +9,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
+use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
  * @ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "app_images_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
  */
 class Image
 {
@@ -36,7 +45,6 @@ class Image
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
-     * @Expose
      */
     private $product;
 

@@ -31,6 +31,10 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "brand",
  *     embedded = @Hateoas\Embedded("expr(object.getBrand())")
  * )
+ * @Hateoas\Relation(
+ *     "images",
+ *     embedded = @Hateoas\Embedded("expr(object.getImages())")
+ * )
  */
 class Product
 {
