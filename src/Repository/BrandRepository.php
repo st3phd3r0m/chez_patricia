@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Brand;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,22 +20,29 @@ class BrandRepository extends ServiceEntityRepository
         parent::__construct($registry, Brand::class);
     }
 
-    // /**
-    //  * @return Brand[] Returns an array of Brand objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Brand[] Returns an array of Brand objects
+     */
+    public function getPage(int $limit, int $offset)
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+            ->setFirstResult( $offset )
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function getNumberOfPages(int $limit): int
+    {
+        $dql = 'SELECT COUNT(*) FROM brand as b';
+        $conn = $this->getEntityManager()->getConnection();
+        $stmt = $conn->executeQuery($dql, [], []);
+        $result = $stmt->fetchOne();
+        $conn->close();
+
+        return (int) ceil($result / $limit);
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Brand

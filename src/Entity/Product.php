@@ -10,11 +10,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
- * 
  * @ExclusionPolicy("all")
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "app_products_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *      )
+ * )
+ * @Hateoas\Relation(
+ *     "sizes",
+ *     embedded = @Hateoas\Embedded("expr(object.getSizes())")
+ * )
  */
 class Product
 {
@@ -92,7 +104,6 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=Size::class, mappedBy="product", cascade={"persist"})
-     * @Expose
      */
     private $sizes;
 
