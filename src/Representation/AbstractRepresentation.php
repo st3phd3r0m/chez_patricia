@@ -3,6 +3,9 @@
 namespace App\Representation;
 
 use App\Entity\Brand;
+use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\Comment;
 
 abstract class AbstractRepresentation
 {
@@ -17,7 +20,12 @@ abstract class AbstractRepresentation
     public $meta;
 
     /**
-     * @param iterable<Brand>
+     * Undocumented function
+     *
+     * @param iterable<Brand|Product|Category|Comment> $data
+     * @param integer $page
+     * @param integer $numberOfPages
+     * @param integer $numberOfItemsPerPage
      */
     public function __construct($data, int $page, int $numberOfPages, int $numberOfItemsPerPage)
     {

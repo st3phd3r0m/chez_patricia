@@ -12,7 +12,10 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
+use function PHPUnit\Framework\throwException;
 
 class ProductController extends AbstractFOSRestController
 {
@@ -44,8 +47,7 @@ class ProductController extends AbstractFOSRestController
         $page = $paramFetcher->get('page');
         $numberOfPages = $this->productRepository->getNumberOfPages(self::MAX_PER_PAGE);
         if($page<1 || $page > $numberOfPages){
-            // todo : throw an exception
-            return new Products([], $page, $numberOfPages, self::MAX_PER_PAGE);
+            throw new NotFoundHttpException("No ressource here", null, 404);
         }
 
         $products = $this->productRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE);

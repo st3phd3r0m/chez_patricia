@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryController extends AbstractFOSRestController
 {
@@ -51,8 +51,7 @@ class CategoryController extends AbstractFOSRestController
         $h_order = $paramFetcher->get('h_order');
         $numberOfPages = $this->categoryRepository->getNumberOfPages(self::MAX_PER_PAGE, $h_order);
         if($page<1 || $page > $numberOfPages){
-            // todo : throw an exception
-            return new Categories([], $page, $numberOfPages, self::MAX_PER_PAGE);
+            throw new NotFoundHttpException("No ressource here", null, 404);
         }
 
         $brands = $this->categoryRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE, $h_order);

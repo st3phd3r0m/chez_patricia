@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BrandController extends AbstractFOSRestController
 {
@@ -43,8 +44,7 @@ class BrandController extends AbstractFOSRestController
         $numberOfPages = $this->brandRepository->getNumberOfPages(self::MAX_PER_PAGE);
         $page = $paramFetcher->get('page');
         if($page<1 || $page > $numberOfPages){
-            // todo : throw an exception
-            return new Brands([], $page, $numberOfPages, self::MAX_PER_PAGE);
+            throw new NotFoundHttpException("No ressource here", null, 404);
         }
 
         $brands = $this->brandRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE);

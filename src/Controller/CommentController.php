@@ -13,7 +13,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommentController extends AbstractFOSRestController
 {
@@ -54,15 +54,13 @@ class CommentController extends AbstractFOSRestController
         $product_id = $this->productRepository->getProductId($product_slug);
 
         if(null == $product_id){
-            // todo : throw an exception
-            return new Comments([], $page, 0, self::MAX_PER_PAGE);
+            throw new NotFoundHttpException("No ressource here", null, 404);
         }
 
         $numberOfPages = $this->commentRepository->getNumberOfPages(self::MAX_PER_PAGE, $product_id);
 
         if($page<1 || $page > $numberOfPages){
-            // todo : throw an exception
-            return new Comments([], $page, $numberOfPages, self::MAX_PER_PAGE);
+            throw new NotFoundHttpException("No ressource here", null, 404);
         }
 
         $comments = $this->commentRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE, $product_id);
