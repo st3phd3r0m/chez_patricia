@@ -13,7 +13,15 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Areas;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(name="Categories")
+ */
 class CategoryController extends AbstractFOSRestController
 {
     private const MAX_PER_PAGE = 10;
@@ -43,6 +51,15 @@ class CategoryController extends AbstractFOSRestController
      *     description="Category order."
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Get the list of all categories.",
+     *     @Model(type=Category::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      * @return Category[]|Categories
      */
     public function listAction(ParamFetcherInterface $paramFetcher)
@@ -65,6 +82,15 @@ class CategoryController extends AbstractFOSRestController
      *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Return one category",
+     *     @Model(type=Category::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      */
     public function showAction(Category $category): Category
     {

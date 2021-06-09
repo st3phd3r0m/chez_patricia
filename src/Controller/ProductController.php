@@ -13,10 +13,15 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Areas;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use OpenApi\Annotations as OA;
 
-use function PHPUnit\Framework\throwException;
-
+/**
+ * @OA\Tag(name="Products")
+ */
 class ProductController extends AbstractFOSRestController
 {
     private const MAX_PER_PAGE = 10;
@@ -40,6 +45,15 @@ class ProductController extends AbstractFOSRestController
      *     description="Page number."
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Get the list of all products.",
+     *     @Model(type=Product::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      * @return Product[]|Products
      */
     public function listAction(ParamFetcherInterface $paramFetcher)
@@ -61,6 +75,15 @@ class ProductController extends AbstractFOSRestController
      *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Return one product.",
+     *     @Model(type=Product::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      */
     public function showAction(Product $product): Product
     {

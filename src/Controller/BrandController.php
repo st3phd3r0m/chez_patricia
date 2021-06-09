@@ -13,7 +13,15 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Areas;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(name="Brands")
+ */
 class BrandController extends AbstractFOSRestController
 {
     private const MAX_PER_PAGE = 10;
@@ -37,6 +45,15 @@ class BrandController extends AbstractFOSRestController
      *     description="Page number."
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Get the list of all brands.",
+     *     @Model(type=Brand::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      * @return Brand[]|Brands
      */
     public function listAction(ParamFetcherInterface $paramFetcher)
@@ -58,6 +75,15 @@ class BrandController extends AbstractFOSRestController
      *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Return one brand.",
+     *     @Model(type=Brand::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      */
     public function showAction(Brand $brand): Brand
     {

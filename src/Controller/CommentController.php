@@ -14,7 +14,15 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use Nelmio\ApiDocBundle\Annotation\Areas;
+use Nelmio\ApiDocBundle\Annotation\Operation;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Tag(name="comments")
+ */
 class CommentController extends AbstractFOSRestController
 {
     private const MAX_PER_PAGE = 10;
@@ -45,6 +53,15 @@ class CommentController extends AbstractFOSRestController
      *     description="Page number."
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Get the list of all comments.",
+     *     @Model(type=Comment::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      * @return Comment[]|Comments
      */
     public function listAction(ParamFetcherInterface $paramFetcher)
@@ -75,6 +92,15 @@ class CommentController extends AbstractFOSRestController
      *      requirements = {"id"="\d+"}
      * )
      * @View
+     * @OA\Response(
+     *     response=200,
+     *     description="Return one comment.",
+     *     @Model(type=Comment::class)
+     * )
+     * @OA\Response(
+     *     response=404,
+     *     description="Returned when not found."
+     * )
      */
     public function showAction(Comment $comment): Comment
     {
