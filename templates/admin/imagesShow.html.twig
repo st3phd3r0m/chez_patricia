@@ -1,0 +1,5 @@
+{% for image in entity.instance.images %}
+    <img class="w-25" src="{{ asset('images/products/' ~ image.name ) }}" />
+{% endfor %}
+
+{# <img src="{{ asset('images/'~ image.name ) | imagine_filter('min300') }}"> #}

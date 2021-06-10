@@ -11,13 +11,14 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
  *      "self",
- *      href = "expr('/products/' ~ object.getSlug())"
+ *      href = "expr('/api/products/' ~ object.getSlug())"
  * )
  * @Hateoas\Relation(
  *     "sizes",
@@ -131,6 +132,7 @@ class Product
     private $updated_at;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=30)
      * @Expose
      */

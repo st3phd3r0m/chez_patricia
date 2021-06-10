@@ -12,13 +12,16 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
+ * @Vich\Uploadable
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
  *      "self",
- *      href = "expr('/brands/' ~ object.getSlug())"
+ *      href = "expr('/api/brands/' ~ object.getSlug())"
  * )
  * @Hateoas\Relation(
  *     "products",
@@ -70,6 +73,7 @@ class Brand
 
     /**
      * @var File|null
+     * @Vich\UploadableField(mapping="brand_logos", fileNameProperty="logo")
      * @Assert\File(
      *      maxSize = 2000000,
      *      maxSizeMessage = "Le fichier est trop volumineux (> 2Mo)"
@@ -83,6 +87,7 @@ class Brand
 
     /**
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Gedmo\Slug(fields={"name"})
      * @Expose
      */
     private $slug;

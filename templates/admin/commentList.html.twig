@@ -1,0 +1,10 @@
+
+{% for comment in entity.instance.comments %}
+<div class="border rounded p-2 mb-2">
+    <p>De <span class="font-weight-bold">{{ comment.customer.firstname }} {{ comment.customer.lastname }}</span>, le {{ comment.createdAt|date('d-m-Y H:m:s') }} sur le produit <span class="font-italic">{{ comment.product.name }}</span></p>
+    <p class="font-italic">{{ comment.content }}</p>
+    {% if comment.mark is not empty %}
+        <p>{{ comment.mark }}/5</p>
+    {% endif %}
+</div>
+{% endfor %}

@@ -1,0 +1,26 @@
+{% set total = 0 %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Tailles</th>
+      <th scope="col">Quantités</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for size in entity.instance.sizes %}
+
+    {% set total = total + size.stock %}
+    <tr>
+      <td>{{ size.name }}</td>
+      <td>{{ size.stock }}</td>
+    </tr>
+  {% endfor %}
+    <tr>
+      <td class="font-weight-bold">Total</td>
+      <td class="font-weight-bold">{{ total }}</td>
+    </tr>
+  </tbody>
+</table>
+
+    

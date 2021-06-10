@@ -14,7 +14,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ExclusionPolicy("all")
  * @Hateoas\Relation(
  *      "self",
- *      href = "expr('/comments/' ~ object.getId())"
+ *      href = "expr('/api/comments/' ~ object.getId())"
  * )
  * @Hateoas\Relation(
  *     "product",

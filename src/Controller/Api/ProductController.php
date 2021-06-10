@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
-use App\Entity\Brand;
-use App\Repository\BrandRepository;
-use App\Representation\Brands;
+use App\Entity\Product;
+use App\Repository\ProductRepository;
+use App\Representation\Products;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -12,31 +12,33 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @OA\Tag(name="Brands")
+ * @Route("/api/")
+ * @OA\Tag(name="Products")
  */
-class BrandController extends AbstractFOSRestController
+class ProductController extends AbstractFOSRestController
 {
     private const MAX_PER_PAGE = 10;
 
-    private BrandRepository $brandRepository;
+    private ProductRepository $productRepository;
 
-    public function __construct(BrandRepository $brandRepository)
+    public function __construct(ProductRepository $productRepository)
     {
-        $this->brandRepository = $brandRepository;
+        $this->productRepository = $productRepository;
     }
 
     /**
      * @Get(
-     *      path = "/brands",
-     *      name = "app_brands_list"
+     *      path = "products",
+     *      name = "app_products_list"
      * )
      * @QueryParam(
      *     name="page",
@@ -47,46 +49,46 @@ class BrandController extends AbstractFOSRestController
      * @View
      * @OA\Response(
      *     response=200,
-     *     description="Get the list of all brands.",
-     *     @Model(type=Brand::class)
+     *     description="Get the list of all products.",
+     *     @Model(type=Product::class)
      * )
      * @OA\Response(
      *     response=404,
      *     description="Returned when not found."
      * )
-     * @return Brand[]|Brands
+     * @return Product[]|Products
      */
     public function listAction(ParamFetcherInterface $paramFetcher)
     {
-        $numberOfPages = $this->brandRepository->getNumberOfPages(self::MAX_PER_PAGE);
         $page = $paramFetcher->get('page');
+        $numberOfPages = $this->productRepository->getNumberOfPages(self::MAX_PER_PAGE);
         if($page<1 || $page > $numberOfPages){
-            throw new NotFoundHttpException("No ressource here", null, 404);
+            throw new NotFoundResourceException("No ressource here", 404);
         }
 
-        $brands = $this->brandRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE);
-        return new Brands($brands, $page, $numberOfPages, self::MAX_PER_PAGE);
+        $products = $this->productRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE);
+        return new Products($products, $page, $numberOfPages, self::MAX_PER_PAGE);
     }
 
     /**
      * @Get(
-     *      path = "/brands/{slug}",
-     *      name = "app_brands_show",
+     *      path = "products/{slug}",
+     *      name = "app_products_show",
      *      requirements = {"slug"="[a-z0-9-]+"}
      * )
      * @View
      * @OA\Response(
      *     response=200,
-     *     description="Return one brand.",
-     *     @Model(type=Brand::class)
+     *     description="Return one product.",
+     *     @Model(type=Product::class)
      * )
      * @OA\Response(
      *     response=404,
      *     description="Returned when not found."
      * )
      */
-    public function showAction(Brand $brand): Brand
+    public function showAction(Product $product): Product
     {
-        return $brand;
+        return $product;
     }
 }

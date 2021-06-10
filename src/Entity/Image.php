@@ -10,8 +10,10 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Since;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @Vich\Uploadable
  * @ExclusionPolicy("all")
  */
 class Image
@@ -41,6 +43,7 @@ class Image
 
     /**
      * @var File|null
+     * @Vich\UploadableField(mapping="products", fileNameProperty="name")
      * @Assert\File(
      *      maxSize = 2000000,
      *      maxSizeMessage = "Le fichier est trop volumineux (> 2Mo)"

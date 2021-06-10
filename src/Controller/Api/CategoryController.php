@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
@@ -12,14 +12,16 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/api/")
  * @OA\Tag(name="Categories")
  */
 class CategoryController extends AbstractFOSRestController
@@ -35,7 +37,7 @@ class CategoryController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/categories",
+     *      path = "categories",
      *      name = "app_categories_list"
      * )
      * @QueryParam(
@@ -68,7 +70,7 @@ class CategoryController extends AbstractFOSRestController
         $h_order = $paramFetcher->get('h_order');
         $numberOfPages = $this->categoryRepository->getNumberOfPages(self::MAX_PER_PAGE, $h_order);
         if($page<1 || $page > $numberOfPages){
-            throw new NotFoundHttpException("No ressource here", null, 404);
+            throw new NotFoundResourceException("No ressource here", 404);
         }
 
         $brands = $this->categoryRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE, $h_order);
@@ -77,7 +79,7 @@ class CategoryController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/categories/{slug}",
+     *      path = "categories/{slug}",
      *      name = "app_categories_show",
      *      requirements = {"slug"="[a-z0-9-]+"}
      * )

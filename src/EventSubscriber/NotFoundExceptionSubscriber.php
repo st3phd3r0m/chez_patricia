@@ -7,8 +7,8 @@ use JMS\Serializer\SerializerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class NotFoundExceptionSubscriber implements EventSubscriberInterface
 {
@@ -22,7 +22,7 @@ class NotFoundExceptionSubscriber implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event)
     {
         $throwable = $event->getThrowable();
-        if($throwable instanceof NotFoundHttpException){
+        if($throwable instanceof NotFoundResourceException){
             
             $notFoundObject = new NotFoundObject($throwable->getCode(), $throwable->getMessage());
 

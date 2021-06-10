@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
@@ -13,14 +13,16 @@ use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Nelmio\ApiDocBundle\Annotation\Areas;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/api/")
  * @OA\Tag(name="comments")
  */
 class CommentController extends AbstractFOSRestController
@@ -38,7 +40,7 @@ class CommentController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/comments",
+     *      path = "comments",
      *      name = "app_comments_list"
      * )
      * @QueryParam(
@@ -71,13 +73,13 @@ class CommentController extends AbstractFOSRestController
         $product_id = $this->productRepository->getProductId($product_slug);
 
         if(null == $product_id){
-            throw new NotFoundHttpException("No ressource here", null, 404);
+            throw new NotFoundResourceException("No ressource here", 404);
         }
 
         $numberOfPages = $this->commentRepository->getNumberOfPages(self::MAX_PER_PAGE, $product_id);
 
         if($page<1 || $page > $numberOfPages){
-            throw new NotFoundHttpException("No ressource here", null, 404);
+            throw new NotFoundResourceException("No ressource here", 404);
         }
 
         $comments = $this->commentRepository->getPage(self::MAX_PER_PAGE, ($page-1) * self::MAX_PER_PAGE, $product_id);
@@ -87,7 +89,7 @@ class CommentController extends AbstractFOSRestController
 
     /**
      * @Get(
-     *      path = "/comments/{id}",
+     *      path = "comments/{id}",
      *      name = "app_comments_show",
      *      requirements = {"id"="\d+"}
      * )
