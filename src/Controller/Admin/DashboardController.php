@@ -7,7 +7,6 @@ use App\Entity\Category;
 use App\Entity\Comment;
 use App\Entity\Customer;
 use App\Entity\Product;
-use App\Entity\Size;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -43,7 +42,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Produits', 'fas fa-table', Product::class);
         yield MenuItem::linkToCrud('Marques', 'fas fa-table', Brand::class);
         yield MenuItem::linkToCrud('Catégories', 'fas fa-table', Category::class);
-        yield MenuItem::linkToCrud('Tailles', 'fas fa-table', Size::class);
         yield MenuItem::linkToCrud('Avis clients', 'fas fa-comment', Comment::class);
         yield MenuItem::linkToCrud('Clients', 'fas fa-users', Customer::class);
 

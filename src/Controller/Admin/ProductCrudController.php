@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -41,7 +42,7 @@ class ProductCrudController extends AbstractCrudController
         ];
 
         if($pageName == Crud::PAGE_DETAIL){
-            $fields[] = CollectionField::new('sizes')->setTemplatePath('admin/sizesShow.html.twig');
+            $fields[] = ArrayField::new('sizes')->setTemplatePath('admin/sizesShow.html.twig');
             $fields[] = CollectionField::new('images')->setTemplatePath('admin/imagesShow.html.twig');
             $fields[] = CollectionField::new('category');
             $fields[] = CollectionField::new('comments')->setTemplatePath('admin/commentList.html.twig');

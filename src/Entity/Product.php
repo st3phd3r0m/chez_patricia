@@ -21,10 +21,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *      href = "expr('/api/products/' ~ object.getSlug())"
  * )
  * @Hateoas\Relation(
- *     "sizes",
- *     embedded = @Hateoas\Embedded("expr(object.getSizes())")
- * )
- * @Hateoas\Relation(
  *     "brand",
  *     embedded = @Hateoas\Embedded("expr(object.getBrand())")
  * )
@@ -107,11 +103,6 @@ class Product
     private $brand;
 
     /**
-     * @ORM\OneToMany(targetEntity=Size::class, mappedBy="product", cascade={"persist"})
-     */
-    private $sizes;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="products")
      */
     private $category;
@@ -138,10 +129,15 @@ class Product
      */
     private $slug;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     * @Expose
+     */
+    private $sizes = [];
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->sizes = new ArrayCollection();
         $this->category = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -213,36 +209,6 @@ class Product
     public function setBrand(?Brand $brand): self
     {
         $this->brand = $brand;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Size[]
-     */
-    public function getSizes(): Collection
-    {
-        return $this->sizes;
-    }
-
-    public function addSize(Size $size): self
-    {
-        if (!$this->sizes->contains($size)) {
-            $this->sizes[] = $size;
-            $size->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSize(Size $size): self
-    {
-        if ($this->sizes->removeElement($size)) {
-            // set the owning side to null (unless already changed)
-            if ($size->getProduct() === $this) {
-                $size->setProduct(null);
-            }
-        }
 
         return $this;
     }
@@ -365,6 +331,18 @@ class Product
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSizes(): ?array
+    {
+        return $this->sizes;
+    }
+
+    public function setSizes(?array $sizes): self
+    {
+        $this->sizes = $sizes;
 
         return $this;
     }

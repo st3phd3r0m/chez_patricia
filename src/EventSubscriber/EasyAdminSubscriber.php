@@ -10,7 +10,6 @@ use App\Entity\Image;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\ImageRepository;
-use App\Repository\SizeRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
@@ -23,16 +22,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
-    private SizeRepository $sizeRepository;
     private ImageRepository $imageRepository;
     private ManagerRegistry $managerRegistry;
     private UserPasswordEncoder $passwordEncoder;
     private AdminContextProvider $context;
 
-    public function __construct(ManagerRegistry $managerRegistry, SizeRepository $sizeRepository, ImageRepository $imageRepository, UserPasswordEncoderInterface $passwordEncoder, AdminContextProvider $context)
+    public function __construct(ManagerRegistry $managerRegistry, ImageRepository $imageRepository, UserPasswordEncoderInterface $passwordEncoder, AdminContextProvider $context)
     {
         $this->managerRegistry = $managerRegistry;
-        $this->sizeRepository = $sizeRepository;
         $this->imageRepository = $imageRepository;
         $this->passwordEncoder = $passwordEncoder;
         $this->context = $context;
@@ -65,12 +62,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     {
         $entityManager = $this->managerRegistry->getManager();
 
-        $sizes = $this->sizeRepository->findBy(['product'=> null]);
         $images = $this->imageRepository->findBy(['product'=> null]);
 
-        foreach ($sizes as $key => $size) {
-            $entityManager->remove($size);
-        }
 
         foreach ($images as $key => $image) {
             $entityManager->remove($image);
@@ -131,10 +124,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $entityManager->remove($image);
         }
 
-        foreach ($product->getSizes() as $key => $size) {
-            $product->removeSize($size);
-            $entityManager->remove($size);
-        }
 
         foreach ($product->getComments() as $key => $comment) {
             $product->removeComment($comment);

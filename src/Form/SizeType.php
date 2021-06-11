@@ -2,10 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Size;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SizeType extends AbstractType
 {
@@ -15,12 +13,5 @@ class SizeType extends AbstractType
             ->add('name')
             ->add('stock')
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Size::class,
-        ]);
     }
 }

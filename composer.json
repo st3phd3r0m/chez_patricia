@@ -12,8 +12,10 @@
         "doctrine/orm": "^2.9",
         "easycorp/easyadmin-bundle": "^3.3",
         "friendsofsymfony/rest-bundle": "^3.0",
+        "fzaninotto/faker": "^1.9",
         "jms/serializer-bundle": "^3.9",
         "liip/imagine-bundle": "^2.6",
+        "mmo/faker-images": "^0.3.0",
         "nelmio/api-doc-bundle": "^4.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
@@ -47,6 +49,7 @@
         "willdurand/hateoas-bundle": "^2.2"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "^4.4",
         "symfony/css-selector": "^4.4",
