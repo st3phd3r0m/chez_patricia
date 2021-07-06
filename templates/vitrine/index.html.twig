@@ -4,16 +4,20 @@
 {% endblock %}
 
 {% block stylesheets %}
-	{{ encore_entry_link_tags('app') }}
+	{{ encore_entry_link_tags('vitrine') }}
 {% endblock %}
 
 {% block body %}
 
-
+<header>
+    <nav id="categoriesList">
+        <categories-list :categories="categories"></categories-list>
+    </nav>
+</header>
 
 {% endblock %}
 
 
 {% block javascripts %}
-	{{ encore_entry_script_tags('app') }}
+	{{ encore_entry_script_tags('vitrine') }}
 {% endblock %}

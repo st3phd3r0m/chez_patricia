@@ -1,12 +1,10 @@
 {
   "entrypoints": {
-    "app": {
+    "vitrine": {
       "js": [
-        "/build/runtime.c7f5ad70.js",
-        "/build/app.ccb936cb.js"
-      ],
-      "css": [
-        "/build/app.b75294ae.css"
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-904996.js",
+        "/build/vitrine.js"
       ]
     }
   }
