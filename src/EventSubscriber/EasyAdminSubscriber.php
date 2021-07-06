@@ -8,7 +8,7 @@ use App\Entity\Comment;
 use App\Entity\Customer;
 use App\Entity\Image;
 use App\Entity\Product;
-use App\Entity\User;
+use App\Entity\Users;
 use App\Repository\ImageRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityDeletedEvent;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
@@ -52,7 +52,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $entityInstance->setUpdatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         }
 
-        if ($entityInstance instanceof User && $entityInstance == $this->context->getContext()->getUser()){
+        if ($entityInstance instanceof Users && $entityInstance == $this->context->getContext()->getUser()){
             $this->setUserPassword($entityInstance);
         }
 
@@ -89,7 +89,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             $entityInstance->setCreatedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
         }
 
-        if ($entityInstance instanceof User ){
+        if ($entityInstance instanceof Users ){
             $this->setUserPassword($entityInstance);
         }
     }
@@ -149,7 +149,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function setUserPassword(User $user)
+    public function setUserPassword(Users $user)
     {
         $user->setPassword(
             $this->passwordEncoder->encodePassword(
