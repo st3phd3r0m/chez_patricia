@@ -27,7 +27,7 @@ class UsersCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return Users::class;
     }
     
     public function configureFields(string $pageName): iterable
