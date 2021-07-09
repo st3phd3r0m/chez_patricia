@@ -1,10 +1,13 @@
 {
   "entrypoints": {
-    "vitrine": {
+    "categoriesList": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-904996.js",
-        "/build/vitrine.js"
+        "/build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.js",
+        "/build/categoriesList.js"
+      ],
+      "css": [
+        "/build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.css"
       ]
     }
   }

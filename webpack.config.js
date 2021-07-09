@@ -20,7 +20,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('vitrine', './assets/vitrine.js')
+    .addEntry('categoriesList', './assets/js/categoriesList.js')
 
     .enableVueLoader()
 
@@ -75,3 +75,8 @@ Encore
 ;
 
 module.exports = Encore.getWebpackConfig();
+
+module.rules = {
+    test: /\.css/,
+    use: ['vue-style-loader', 'css-loader'] // BOTH are needed!
+  };

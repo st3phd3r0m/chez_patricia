@@ -1,7 +1,6 @@
 {
-  "build/vitrine.css": "/build/vitrine.css",
-  "build/vitrine.js": "/build/vitrine.js",
+  "build/categoriesList.js": "/build/categoriesList.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-904996.js": "/build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-904996.js",
-  "build/vendors-node_modules_core-js_modules_es_function_name_js-node_modules_core-js_modules_es_obje-42ba1b.js": "/build/vendors-node_modules_core-js_modules_es_function_name_js-node_modules_core-js_modules_es_obje-42ba1b.js"
+  "build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.css": "/build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.css",
+  "build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.js": "/build/vendors-node_modules_bootstrap-vue_esm_index_js-node_modules_core-js_modules_es_object_to-str-3e2950.js"
 }
