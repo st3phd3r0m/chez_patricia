@@ -1,17 +1,21 @@
 security:
-
     encoders:
-        App\Entity\Users:
-            algorithm: auto
-
         App\Entity\Customer:
+            algorithm: auto
+        App\Entity\Users:
             algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        user_provider:
-            entity:
+
+        customers:
+            entity: 
+                class: App\Entity\Customer
+                property: email
+
+        administrators:
+            entity: 
                 class: App\Entity\Users
                 property: email
 
@@ -20,17 +24,26 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        admin_domain:
-            anonymous: true
-            provider: user_provider
+        customer_domain:
+            pattern: ^/(customer|logincustomer|logoutcustomer)
+            provider: customers
+            anonymous: lazy
             guard:
-                authenticators:
-                    - App\Security\UserAuthenticator
-                entry_point: App\Security\UserAuthenticator
-                provider: user_provider
+                authenticators: 
+                    - customers_authenticator
+            logout:
+                path: customer_logout
+                target: customer_login
+
+        admin_domain:
+            pattern: ^/(admin|loginadmin|logoutadmin)
+            provider: administrators
+            anonymous: lazy
+            guard:
+                authenticators: 
+                    - administrators_authenticator
             logout:
                 path: admin_logout
-                # where to redirect after logout
                 target: admin_login
 
             # activate different ways to authenticate
@@ -43,5 +56,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     # - { path: ^/profile, roles: ROLE_USER }
     access_control:        
-        # - { path: '^/admin', roles: ROLE_ADMIN }
-    #     - { path: '^/customer', roles: ROLE_CUSTOMER }
+        - { path: '^/admin', roles: ROLE_ADMIN }
+        - { path: '^/customer', roles: ROLE_CUSTOMER }

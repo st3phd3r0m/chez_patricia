@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace client{% endblock %}
+
+{% block body %}
+
+<div>
+    <h2>Espace client</h2>
+    <p>Bienvenue dans votre espace client</p>
+</div>
+
+{{ dump(app.user) }}
+
+<a href="{{ path('customer_logout') }}" class="dropdown-item" title="Se déconnecter de l'espace client">Déconnexion</a>
+{% endblock %}
